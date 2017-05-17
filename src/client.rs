@@ -27,7 +27,7 @@ pub struct Config {
 
 impl Config {
     pub fn url(&self) -> String {
-        clone.clone().web.host + &self.web.port
+        self.clone().web.host + &self.web.port
     }
 }
 
