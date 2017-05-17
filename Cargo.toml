@@ -1,0 +1,23 @@
+[package]
+name = "ahagon"
+version = "0.1.0"
+authors = ["mikopits <mikopits@gmail.com>"]
+
+[dependencies]
+futures = "0.1"
+iron = "0.5"
+github-rs = "0.4"
+log = "0.3"
+#rusqlite = "0.11"
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
+toml = "0.4"
+
+[lib]
+name = "ahagon"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ahagon_bot"
+path = "src/bin/bin.rs"
