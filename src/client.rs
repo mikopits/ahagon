@@ -56,17 +56,17 @@ pub struct RepoConfig {
     reviewers: Vec<String>,
     try_users: Vec<String>,
     secret: String,
-    token: String,
+    travis_token: String,
 }
 
 impl Config {
     pub fn new<P>(config_path: P) -> ::Result<Config>
         where P: AsRef<Path>,
     {
-        let f = File::open(config_path)?;
-        let mut br = BufReader::new(f);
+        let file = File::open(config_path)?;
+        let mut reader = BufReader::new(file);
         let mut buf = String::new();
-        br.read_to_string(&mut buf)?;
+        reader.read_to_string(&mut buf)?;
 
         let config: Config = ::toml::from_str(&buf)?;
         Ok(config)
