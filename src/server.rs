@@ -32,12 +32,13 @@ impl Server {
     pub fn run(config: ::Config) {
         let mut router = Router::new();
 
-        router.add_route("hello".to_string(), |_: &mut Request| {
-            Ok(Response::with((status::Ok, "Hello world!")))
+        router.add_route("github".to_string(), |_: &mut Request| {
+            println!("Got a request at /github");
+            Ok(Response::with((status::Ok, "")))
         });
 
         match Iron::new(router).http(config.url()) {
-            Ok(_) => (),
+            Ok(l) => println!("Listener: {:?}", l),
             Err(e) => println!("Shutting server down: {:?}", e),
         }
     }
