@@ -26,6 +26,7 @@ pub struct Config {
 }
 
 impl Config {
+    #[inline]
     pub fn url(&self) -> String {
         self.clone().web.host + ":" + &self.web.port
     }

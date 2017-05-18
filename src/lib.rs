@@ -1,6 +1,13 @@
+extern crate bodyparser;
+extern crate futures;
 extern crate github_rs;
+#[macro_use]
+extern crate hyper;
 extern crate iron;
-//extern crate hyper;
+#[macro_use]
+extern crate log;
+extern crate persistent;
+extern crate router;
 //extern crate rusqlite;
 extern crate serde;
 #[macro_use]
