@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Ahagon</title>
+        <!-- IE -->
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+        <!-- other browsers -->
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+        <style>
+            * { font-family: sans-serif; }
+            code { font-family: monospace; }
+            h1 { font-size: 22px; }
+            h2 { font-size: 18px; }
+            h3 { font-size: 16px; }
+            h4 { font-size: 14px; }
+            p, ul { font-size: 15px; line-height: 150%; }
+            code { background-color: #efefef; }
+            body { max-width: 60em; margin-left: auto; margin-right: auto; }
+            .repos { font-size: 18px; line-height: 180%; }
+        </style>
+    </head>
+    <body>
+        <h1>Ahagon</h1>
+
+        <h2>Repositories</h2>
+
+        <!--<ul class="repos">
+            {% for repo in repos %}
+            <li><a href="queue/{{repo}}">{{repo}}</a></li>
+            {% endfor %}
+            </ul>-->
+
+        <hr>
+
+        <h2>Ahagon Cheatsheet</h2>
+
+        <h3>Commands</h3>
+
+        <ul>
+            <li><code>r+ (SHA)</code>: Accept a PR.</li>
+            <li><code>r=NAME (SHA)</code>: Accept a PR on the behalf of NAME.</li>
+            <li><code>r-</code>: Unaccept a PR.</li>
+            <li><code>p=NUMBER</code>: Set the priority of the accpeted PR.</li>
+            <li>...</li>
+        </ul>
+
+        <h4>Examples</h4>
+
+        <ul>
+            <li><code>@ahagon r+ p=1</code></li>
+            <li><code>@ahagon r+ 123456</code></li>
+            <li><code>@ahagon r=mikopits rollup</code></li>
+            <li><code>@ahagon retry</code></li>
+        </ul>
+    </body>
+</html>
