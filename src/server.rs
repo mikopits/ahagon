@@ -53,9 +53,7 @@ fn github_handler(req: &mut Request) -> IronResult<Response> {
         Ok(Some(json_body)) => {
             match event_type.into_inner() {
                 Event::WildCard => debug!("Got a wildcard"),
-                Event::CommitComment => {
-                    debug!("Got a commit comment");
-                },
+                Event::CommitComment => debug!("Got a commit comment"),
                 Event::Create => debug!("Got a create"),
                 Event::Delete => debug!("Got a delete"),
                 Event::Deployment => debug!("Got a deployment"),
