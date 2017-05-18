@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 use std::fs::File;
 
-use bodyparser::{Json, MaxBodyLength, Raw};
+use bodyparser::{Json, MaxBodyLength};
 use iron::{AfterMiddleware, Chain, Iron, IronResult, Plugin, Request, Response};
 use iron::error::IronError;
 use iron::headers::{ContentType, UserAgent};
@@ -9,6 +9,8 @@ use iron::mime::{Mime, TopLevel, SubLevel, Attr, Value};
 use iron::status;
 use persistent::Read;
 use router::{NoRoute, Router};
+use serde_json::Value as JsonValue;
+use urlencoded::UrlEncodedQuery;
 
 header! { (XGithubEvent, "X-Github-Event") => [String]  }
 
@@ -107,8 +109,26 @@ fn github_handler(req: &mut Request) -> IronResult<Response> {
 fn travis_handler(req: &mut Request) -> IronResult<Response> {
     info!("Got request at `/travis`: {:?}", req);
 
-    let raw_body = req.get::<Raw>();
-    debug!("Read body: {:?}", raw_body);
+    let json_body: JsonValue = match req.get::<UrlEncodedQuery>() {
+        Ok(ref hashmap) => {
+            match hashmap.get("payload") {
+                Some(buf) => match ::serde_json::from_str(&buf[0]) {
+                    Ok(json) => json,
+                    Err(err) => {
+                        error!("Could not parse travis json: {:?}", err);
+                        return Ok(Response::with(status::BadRequest))
+                    },
+                },
+                None => return Ok(Response::with(status::BadRequest)),
+            }
+        },
+        Err(err) => {
+            error!("Could not parse travis webhook: {:?}", err);
+            return Ok(Response::with(status::BadRequest))
+        }
+    };
+
+    debug!("json_body: {:?}", json_body);
 
     Ok(Response::with(status::Ok))
 }

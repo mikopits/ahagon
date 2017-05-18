@@ -1,5 +1,4 @@
 extern crate bodyparser;
-extern crate futures;
 extern crate github_rs;
 #[macro_use]
 extern crate hyper;
@@ -14,6 +13,7 @@ extern crate serde;
 extern crate serde_derive;
 extern crate serde_json;
 extern crate toml;
+extern crate urlencoded;
 
 pub use self::client::{Client, Config};
 pub use self::error::{Error, Result};
