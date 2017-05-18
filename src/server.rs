@@ -10,7 +10,7 @@ use iron::status;
 use persistent::Read;
 use router::{NoRoute, Router};
 use serde_json::Value as JsonValue;
-use urlencoded::UrlEncodedQuery;
+use urlencoded::UrlEncodedBody;
 
 header! { (XGithubEvent, "X-Github-Event") => [String]  }
 
@@ -97,8 +97,8 @@ fn github_handler(req: &mut Request) -> IronResult<Response> {
             debug!("No body");
             Ok(Response::with(status::BadRequest))
         },
-        Err(err) => {
-            error!("Error: {:?}", err);
+        Err(e) => {
+            error!("Error: {:?}", e);
             Ok(Response::with(status::BadRequest)) 
         },
     }
@@ -109,23 +109,23 @@ fn github_handler(req: &mut Request) -> IronResult<Response> {
 fn travis_handler(req: &mut Request) -> IronResult<Response> {
     info!("Got request at `/travis`: {:?}", req);
 
-    let json_body: JsonValue = match req.get::<UrlEncodedQuery>() {
+    let json_body: JsonValue = match req.get::<UrlEncodedBody>() {
         Ok(ref hashmap) => {
             match hashmap.get("payload") {
                 Some(buf) => match ::serde_json::from_str(&buf[0]) {
                     Ok(json) => json,
-                    Err(err) => {
-                        error!("Could not parse travis json: {:?}", err);
+                    Err(e) => {
+                        error!("Could not parse travis json: {:?}", e);
                         return Ok(Response::with(status::BadRequest))
                     },
                 },
                 None => return Ok(Response::with(status::BadRequest)),
             }
         },
-        Err(err) => {
-            error!("Could not parse travis webhook: {:?}", err);
+        Err(ref e) => {
+            error!("Could not parse travis webhook: {:?}", e);
             return Ok(Response::with(status::BadRequest))
-        }
+        },
     };
 
     debug!("json_body: {:?}", json_body);
