@@ -9,7 +9,7 @@ os:
     - linux
 
 notifications:
-    webhook: http://138.197.155.224:54856/travis
+    webhooks: http://138.197.155.224:54856/travis
 
 cache: cargo
 
